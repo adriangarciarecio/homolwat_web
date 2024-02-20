@@ -1,0 +1,163 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% load static %}
+  <h2 class="title">Manual</h2>
+  <hr>
+  
+  <a class="link" href="./"> DIMERBOW </a> is a web-server application that provides
+  information about possible dimers present in crystallographic
+  structures of GPCR. The application constantly are updated. The reason why it uses all the newests structures
+  stored in <a class="link" href="https://www.rcsb.org/">
+    Protein Data Bank </a> related with GPCR. <br>
+  <b>Last update: 2020-03-05 </b><br>
+
+  <hr>
+  <h3 class="title">Functions</h3>
+  <div class="text" style="margin-left: 10px">
+    DIMEROW mainly uses the python plot interactive module <a class="link" href="https://bokeh.pydata.org/en/latest/">
+      Bokeh v.1.0.4 </a> and
+    the application <a class="link" href="http://nglviewer.org/#ngl"> NGL 2.0.0 </a> to display the structures on
+    html. These programs gives to the user some filtering options with an interactive plot and the possibility to
+    take a look of the structures without installing anything and interact with them. Below, it is explained
+    the functions that DIMERBOW have: <br>
+  </div>
+  <h4 class="title" style="margin-left: 20px">Bokeh - Interactive plot tools</h4>
+  <div class="text" style="margin-left: 20px">
+    Bokeh have a lot of tools that the user can use to interact with the plot. Tools more detailed explain clicking
+    in this link <a class="link" href="https://bokeh.pydata.org/en/latest/docs/user_guide/tools.html#pan-drag-tools">
+      Bokeh - Usage tools</a>.
+    <br> DIMERBOW have some of them:
+    <ul>
+      <li><strong>Pan <img src="https://bokeh.pydata.org/en/latest/_images/Pan.png" width="20px" height="20px">:
+        </strong> move the graphic
+        when the user drags. </li>
+      <li><strong>Box zoom <img src="https://bokeh.pydata.org/en/latest/_images/BoxZoom.png" width="20px" height="20px">:
+        </strong> user can select a rectangular region on the plot and zoom on it.</li>
+      <li><strong>Wheel zoom <img src="https://bokeh.pydata.org/en/latest/_images/WheelZoom.png" width="20px" height="20px">:
+        </strong> user
+        can zoom with the wheel of the mouse.</li>
+      <li><strong>Tap <img src="https://bokeh.pydata.org/en/latest/_images/Tap.png" width="20px" height="20px">:
+        </strong> activate/desactive
+        the tap on each point for selection.</li>
+      <li><strong>Reset <img src="https://bokeh.pydata.org/en/latest/_images/Reset.png" width="20px" height="20px">:
+        </strong> return to the
+        original position.</li>
+      <li><strong>Save <img src="https://bokeh.pydata.org/en/latest/_images/Save.png" width="20px" height="20px">:
+        </strong> save a image of
+        the plot in .png format.</li>
+      <li><strong>Hover <img src="https://bokeh.pydata.org/en/latest/_images/Hover.png" width="20px" height="20px">:
+        </strong>
+        display/undisplay the information when you hover the mouse on a point.</li>
+      <li><strong>Bokeh home: </strong> redirect the user to Bokeh homepage.</li>
+
+    </ul>
+
+    <i>Note: Some of these tools are desactivate by default. Click on to activate them.</i>
+
+  </div>
+  <h4 class="title" style="margin-left: 20px">NGL</h4>
+  <div class="text" style="margin-left: 20px">
+    NGL is a viewer for molecular visualization that gives a lot of possibilities to display a structure. Controls
+    are avaliable clicking in this link <a class="link" href="http://nglviewer.org/ngl/api/manual/interaction-controls.html#mouse">MANUAL
+      - Mouse &amp; Keyboard control</a>. <br>
+
+    In the case of DIMERBOW, NGL displays somes options: <br> <br>
+    <img alt="Enable lipids/ligands" src="{% static 'home/img/lipids_option.png' %}" width="18%" height="18%">
+    <img src="{% static 'home/img/sidechain_option.png' %}" width="18%" height="18%">
+    <img src="{% static 'home/img/surface_option.png' %}" width="18%" height="18%">
+    <img src="{% static 'home/img/fusion_protein_option.png' %}" width="18%" height="18%">
+    <img src="{% static 'home/img/restype_option.png' %}" width="18%" height="18%">
+    <br> <br>
+    Also, for each structure you can download the structure in pdb format clicking in the button.
+
+  </div>
+
+  <hr>
+  <h3 class="title" style="margin-left: 20px">Modes</h3>
+  <div class="text" style="margin-left: 20px">
+    DIMERBOW have two modes:<br> <br>
+    <img src="{% static 'home/img/mode.png' %}" width="8%">
+  </div>
+  <h4 class="title" style="margin-left: 20px">PDB structure mode:</h4>
+  <div class="text" style="margin-left: 20px">
+    The PDB structure mode display the best possible dimers originated from the PDB structures. In this mode the
+    user can filter using some parameters provides by the application (explained at the end of this paragrah) to
+    select the structure or structures that will like visualize.
+  </div>
+  <br>
+  <img src="{% static 'home/img/crystal_mode.png' %}" style="margin-left:40px" width="90%" height="90%">
+  <h5 class="title" style="margin-left: 20px">Filters</h5>
+  <div class="text" style="margin-left: 20px">
+    In the above image you can see at the left some filters that you can apply:
+    <ul>
+      <li><strong>Reset: </strong> reset all the filtering.</li>
+      <li><strong>Type: </strong> options of symmetry
+        <ul>
+          <li>Head-to-head, symmetric (blue)</li>
+          <li>Head-to-tail, asymmetric (orange)</li>
+        </ul>
+      </li>
+      <li><strong>Reference: </strong> indicate a PDB code and the plot shows the points related with that code or a
+        reference
+        of this code. Press ENTER when you write the code.</li>
+      <li><strong>Receptor: </strong> select (click) or multiselect (ctl+click/shift+click) the receptors that you
+        want display
+        on the plot.</li>
+      <li><strong>IUPHAR clasification: </strong> select (click) or multiselect (ctl+click/shift+click) the group of
+        receptors that you want display on the plot.</li>
+      <li><strong>Fusion protein: </strong> select (click) or multiselect (ctl+click/shift+click) the dimers with
+        fusion
+        proteins or without fusion protein ("-") that you want display on the plot.</li>
+      <li><strong>Interactions: </strong> limit the minimum number of interactions that dimer contains.</li>
+      <ul>
+        <li>PDB (without fusion protein).</li>
+        <li>With fusion protein.</li>
+      </ul>
+    </ul>
+  </div>
+  <hr>
+
+  <h4 class="title" style="margin-left: 20px">MD simulations mode:</h4>
+  <div class="text" style="margin-left: 20px">
+    The MD simulations mode display the possible structure dimers after simulations. In this mode the
+    user can filter using some parameters provides by the application (explained at the end of this paragrah) to
+    select the structure that you will visualize. Also, you can display the "crystallographic structure" to compare.
+  </div>
+  <br>
+  <img src="{% static 'home/img/sim_mode.png' %}" style="margin-left:40px" width="90%" height="90%">
+  <h5 class="title" style="margin-left: 20px">Filters</h5>
+  <div class="text" style="margin-left: 20px">
+    In the above image you can see at the left some filters that you can apply:
+    <ul>
+      <li><strong>Dimer: </strong> select (click to display the list)the dimer that you
+        want display on the plot.</li>
+      <li><strong>Interactions: </strong> limit the minimum number of interactions that dimer contains on Coarse
+        Grained.</li>
+      <ul>
+        <li>Start simulation. </li>
+        <li>End simulation.</li>
+      </ul>
+    </ul>
+  </div>
+  <hr>
+  <h3 class="title">Examples</h3>
+  <h4 class="title">Example - 1 </h4>
+  <div class="text" style="margin-left: 20px">
+    This example shows how to use the crystallographic mode and download the structure. <br> <br>
+    <div class="video_container">
+      <video id="glass_1" width="1400" controls="">
+        <source src="{% static 'home/gifs/example_1.webm' %}" type="video/webm">
+      </video>
+    </div>
+  </div>
+  <h4 class="title">Example - 2 </h4>
+  <div class="text" style="margin-left: 20px; overflow:hidden">
+    This example shows how to use the simulation mode and download the structure. <br> <br>
+    <div class="video_container">
+      <video id="glass_2" width="1400" controls="">
+        <source src="{% static 'home/gifs/example_2.webm' %}"type="video/webm">
+      </video>
+    </div>
+  </div>
+
+  {% endblock %}  

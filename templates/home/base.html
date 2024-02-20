@@ -1,0 +1,20 @@
+{% load site_title %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<title>{% site_title %}</title>
+<meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=0.86, maximum-scale=3.0, minimum-scale=0.86">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link type="text/css" href="{% static 'home/css/style.css' %}">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<body>
+  {% include 'home/header.html' %}
+  {% block content %}
+  {% endblock %}  
+ {% include 'home/footer.html' %}
+</body>
+
+</html>

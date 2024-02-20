@@ -1,0 +1,42 @@
+
+{% extends 'home/base.html' %}
+{% block content %}
+<script type="text/javascript">
+  function display_bokeh_pdb() {
+    var PDB = document.getElementById("PDB");
+    var PDB_graphic = document.getElementById("PDB_graphic");
+    PDB_graphic.style.display = PDB.checked ? "inline-block" : "none";
+    SIM_graphic.style.display = "none";
+  }
+  function display_bokeh_sim() {
+    var SIM = document.getElementById("SIM");
+    var SIM_graphic = document.getElementById("SIM_graphic");
+    SIM_graphic.style.display = SIM.checked ? "inline-block" : "none";
+    PDB_graphic.style.display = "none";
+  }
+</script>
+<div style="padding-left:30px">
+  <div style="margin-right: 80%; margin-top: 20px">
+    <fieldset>
+      <legend>Select mode: </legend>
+      <input type="radio" name="data" id="PDB" onclick="display_bokeh_pdb()" checked="checked"> Crystal PDB <br>
+      <input type="radio" name="data" id="SIM" onclick="display_bokeh_sim()"> Coarse-Grained MARTINI simulations <br>
+    </fieldset>
+  </div>
+
+  <iframeset id="PDB_graphic" style="display:inline-block" cols="60%,40%">
+    <iframe name="frame1_cry" id="graphic" src="crystal/graphic_crystal" style="height:900px; width:1110px; border:none; overflow: hidden"
+      scrolling="no"> </iframe>
+    <iframe name="frame2_cry" id="structure" src="crystal/structure_crystal" style="width:650px; height:765px; margin-bottom:42px; overflow: hidden; border-color: #555"
+      scrolling="no"> </iframe>
+  </iframeset>
+
+  <iframeset id="SIM_graphic" style="display:none" cols="60%,40%">
+    <iframe name="frame1_sim" id="graphic" src="simulation/graphic_simulation" style="height:900px; width:1110px; border:none; overflow: hidden"
+      scrolling="no"> </iframe>
+    <iframe name="frame2_sim" id="structure" src="simulation/structure_simulation" style="width:650px; height:765px; margin-bottom:42px; overflow: hidden; border-color: #555"
+      scrolling="no"> </iframe>
+  </iframeset>
+
+</div>
+{% endblock %}  

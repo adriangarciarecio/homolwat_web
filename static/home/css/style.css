@@ -1,0 +1,286 @@
+.title {
+    margin-top:20px; 
+    margin-left:10px; 
+    color: rgb(104, 103, 103);
+    font-weight: bold;
+  }
+  
+  .footer {
+    background-color: black; 
+    position: absolute;
+    bottom: 0;
+    text-align: left;
+    width: 100%
+  }
+  
+  .container {
+    position: relative; 
+    background-color: black;
+  }
+  
+  .navbar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+  }
+  
+  .navbar a {
+    float: left;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  .navbar a:hover {
+    background-color: #000;
+  }
+  
+  .active {
+    background-color: #4CAF50;
+  }
+  
+  @media screen and (max-width: 500px) {
+    .navbar a {
+      float: none;
+      display: block;
+    }
+  }
+  
+  body {font-family: Arial, Helvetica, sans-serif;}
+  
+  /* div {
+    resize: both
+  } */
+  
+   /* Style buttons */
+   .btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 78.2%;
+    cursor: pointer;
+    font-size: 18px;
+    position: absolute;
+  }
+  
+  /* Darker background on mouse-over */
+  .btn:hover {
+    background-color: rgb(35, 78, 36);
+  } 
+  
+  /* Contact html */
+  .contact {
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .text {
+    color: black;
+    font-size: 16px;
+    position: relative;
+    text-decoration: none;
+    margin-left: 20px;
+  }
+  
+  /* Contact info
+  .researcher {
+    width: 180px;
+    height: 300px;
+    border-radius: 20px 20px 20px 20px;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    opacity: 1;
+    margin-right: 20px;
+  }
+  
+  .file {
+    position: relative;
+    width: 180px;
+    height: 300px;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+  
+  .info_researcher {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .file:hover .researcher {
+    opacity: 0.3;
+  }
+  
+  .file:hover .info_researcher {
+    opacity: 1;
+  } */
+  .name_researcher {
+    color: black;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 16px;
+  }
+  
+  .job_researcher {
+    color: black;
+    font-size: 12px;
+  }
+  
+  .mail_researcher {
+    color: black;
+    font-size: 12px;
+  }
+  
+  .link {
+    text-decoration: none;
+    color: lightseagreen
+  }
+  
+  #option {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  #option:hover {opacity: 0.7;}
+  
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+  }
+  
+  /* Modal Content (Image) */
+  .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+  }
+  
+  /* Caption of Modal Image (Image Text) - Same Width as the Image */
+  #caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+  }
+  
+  /* Add Animation - Zoom in the Modal */
+  .modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+  }
+  
+  @keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+  }
+  
+  /* The Close Button */
+  .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* 100% Image Width on Smaller Screens */
+  @media only screen and (max-width: 700px){
+    .modal-content {
+      width: 100%;
+    }
+  }
+  
+  .video_container{
+    overflow:hidden;
+    display:block;
+  }
+  
+  #glass_1{
+    margin-top: -45px;
+    margin-bottom: -45px;
+  }
+  #glass_2{
+    margin-top: -45px;
+    margin-bottom: -45px;
+  }
+  
+  video::-webkit-media-controls-fullscreen-button {
+    display: none;
+  }
+  
+  video::-webkit-media-controls-play-button {}
+  video::-webkit-media-controls-timeline {}
+  video::-webkit-media-controls-current-time-display{}
+  video::-webkit-media-controls-time-remaining-display {}
+  video::-webkit-media-controls-time-remaining-display {}
+  video::-webkit-media-controls-mute-button {
+    display:none;
+  }
+  video::-webkit-media-controls-toggle-closed-captions-button {
+  }
+  video::-webkit-media-controls-volume-slider {
+    display:none;
+  }
+  
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    /* border-bottom: 1px dotted black; If you want dots under the hoverable text */
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    border:solid;
+    border-color: black;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 99999;
+    top: 100%;
+    left: -90px;
+    margin-left: -60px;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }

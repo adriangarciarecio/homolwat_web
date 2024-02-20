@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+  <script type="text/javascript" src="https://unpkg.com/ngl@0.10.4/dist/ngl.js"></script>
+  <script>
+    var lz = sessionStorage.getItem("lz");
+    if (lz == "No") {
+      var path_dimer = "http://alf06.uab.es/dimerbow/static/PDB/dimers/"
+      var orientation = [117.84, -1.34, -3.11, 0, -3.24, -14, -117.01, 0, 0.96, 117.05, -14.03, 0, -0.02, 0.01, 0.99, 1]
+    }
+    if (lz == "Yes") {
+      var path_dimer = "http://alf06.uab.es/dimerbow/static/PDB/dimers_lz/"
+      var orientation = [189.19, 21.03, 115.87, 0, 6.27, -220.75, 29.83, 0, 117.59, -22.07, -188.01, 0, 27.99, -29.39, 0, 1]
+    }
+    // alert (path_dimer + lz)
+    var dimer = sessionStorage.getItem("dimer");
+    var coords = sessionStorage.getItem("coords");
+    var coords = coords.split(" ");
+
+    var positive = 'ARG or HIS or LYS'
+    var negative = 'ASP or  GLU'
+    var hidrofobic = 'GLY or  PRO or ALA or  MET or  VAL or  LEU or  ILE'
+    var arom = 'PHE or TYR or TRP'
+    var polar = 'CYS or GLN or ASN or THR or SER'
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var stage = new NGL.Stage("viewport");
+      var schemeId = NGL.ColormakerRegistry.addSelectionScheme([
+        ["cyan", coords[1]],
+        ["gold", coords[2]],
+        ["darkred", coords[3]],
+        ["grey", coords[4]],
+        ["green", coords[5]],
+        ["skyblue", coords[6]],
+        ["salmon", coords[7]],
+        ["lightgrey", "*"]
+      ], "Transmembrane");
+
+      var scheme_restype = NGL.ColormakerRegistry.addSelectionScheme([
+        ["blue", positive],
+        ["red", negative],
+        ["green", polar],
+        ["lightgrey", "*"]
+      ], "Restype");
+
+      stage.loadFile(path_dimer + dimer + ".pdb", { backgroundColor: 'white' }).then(function (o) {
+        o.addRepresentation("cartoon", {
+          color: schemeId,
+          sele: "protein",
+          name: "dimer"
+        })
+        o.autoView()
+        o.addRepresentation("ball+stick", {
+          name: "ligand",
+          visible: ligandCheckbox.checked,
+          sele: "not ( protein or water )",
+        })
+        o.addRepresentation("ball+stick", {
+          name: "sidechain",
+          visible: sidechainCheckbox.checked,
+          sele: "protein",
+        })
+        o.addRepresentation("surface", {
+          name: "surface",
+          visible: surfaceCheckbox.checked,
+          sele: "protein",
+          colorScheme: schemeId,
+        })
+        o.addRepresentation("surface", {
+          name: "restype",
+          visible: restypeCheckbox.checked,
+          sele: "protein",
+          colorScheme: scheme_restype,
+        })
+      });
+      stage.viewerControls.orient(orientation)
+      stage.setParameters({
+        backgroundColor: "white"
+      })
+      function addElement(el) {
+        Object.assign(el.style, {
+          position: "absolute",
+          zIndex: 10
+        })
+        stage.viewer.container.appendChild(el)
+      }
+      function createElement(name, properties, style) {
+        var el = document.createElement(name)
+        Object.assign(el, properties)
+        Object.assign(el.style, style)
+        return el
+      }
+
+      var centerButton = createElement("input", {
+        type: "button",
+        value: "Center",
+        onclick: function () {
+          stage.autoView(1000)
+        }
+      }, { top: "12px", left: "12px" })
+      addElement(centerButton)
+
+      var ligandCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: false,
+        onchange: function (e) {
+          stage.getRepresentationsByName("ligand")
+            .setVisibility(e.target.checked)
+        }
+      }, { top: "50px", left: "12px" })
+      addElement(ligandCheckbox)
+      addElement(createElement("span", {
+        innerText: "Lipids/Ligands"
+      }, { top: "50px", left: "32px", color: "black" }))
+
+      var sidechainCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: false,
+        onchange: function (e) {
+          stage.getRepresentationsByName("sidechain")
+            .setVisibility(e.target.checked)
+        }
+      }, { top: "70px", left: "12px" })
+      addElement(sidechainCheckbox)
+      addElement(createElement("span", {
+        innerText: "Sidechain"
+      }, { top: "70px", left: "32px", color: "black" }))
+
+      var surfaceCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: false,
+        onchange: function (e) {
+          stage.getRepresentationsByName("surface")
+            .setVisibility(e.target.checked)
+        }
+      }, { top: "90px", left: "12px" })
+      addElement(surfaceCheckbox)
+      addElement(createElement("span", {
+        innerText: "Surface"
+      }, { top: "90px", left: "32px", color: "black" }))
+
+      if (lz == "Yes") {
+        var check_fus = true
+      }
+      if (lz == "No") {
+        var check_fus = false
+      }
+
+      var fusprotCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: check_fus,
+        onchange: function (e) {
+          if (e.target.checked == true) {
+            var lz = "Yes";
+          }
+          if (e.target.checked == false) {
+            var lz = "No";
+          }
+          sessionStorage.setItem("lz", lz);
+          parent.frame2_cry.location.reload();
+        }
+      }, { top: "110px", left: "12px" })
+      addElement(fusprotCheckbox)
+      addElement(createElement("span", {
+        innerText: "Fusion protein"
+      }, { top: "110px", left: "32px", color: "black" }))
+
+      var restypeCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: false,
+        onchange: function (e) {
+          stage.getRepresentationsByName("restype")
+            .setVisibility(e.target.checked)
+        }
+      }, { top: "130px", left: "12px" })
+      addElement(restypeCheckbox)
+      addElement(createElement("span", {
+        innerText: "Residue type"
+      }, { top: "130px", left: "32px", color: "black" }))
+
+    });
+    //Function Download
+    function download() {
+      window.location = path_dimer + dimer + ".pdb";
+    }
+
+
+  </script>
+  <div id="viewport" style="width:650px; height:765px; position: absolute; margin: auto; top: 0; right: 0; bottom: 0; left: 0"></div>
+  <button class="btn" onclick="download()"><i class="fa fa-download"></i> Download</button>
+</body>
+
+</html>

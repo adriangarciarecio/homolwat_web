@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>DIMERBOW - Visualizing possible GPCR dimers</title>
+
+<head>
+  <meta charset="utf-8">
+</head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body style="background:#555">
+  <script type="text/javascript" src="https://unpkg.com/ngl@0.10.4/dist/ngl.js"></script>
+  <script>
+    var sim = sessionStorage.getItem("sim");
+    var orientation_cry = [117.84, -1.34, -3.11, 0, -3.24, -14, -117.01, 0, 0.96, 117.05, -14.03, 0, -0.02, 0.01, 0.99, 1]
+    var path_cry = "http://alf06.uab.es/dimerbow/static/PDB/dimers/"
+
+    if (sim == 1) {
+      var path_dimer_sim = "http://alf06.uab.es/dimerbow/static/PDB/dimers_sim/sim_1/"
+      var orientation_sim = [106.58, -8.85, -72.97, 0, -73.23, -1.84, -106.75, 0, 6.26, 129.15, -6.52, 0, -74.08, -74.79, -55.89, 1]
+    }
+    if (sim == 2) {
+      var path_dimer_sim = "http://alf06.uab.es/dimerbow/static/PDB/dimers_sim/sim_2/"
+      var orientation_sim = [151.89, -3.44, 93.69, 0, 93.23, -13.26, -151.63, 0, 9.88, 177.96, -9.49, 0, -71.44, -72.2, -52.9, 1]
+    }
+    if (sim == 3) {
+      var path_dimer_sim = "http://alf06.uab.es/dimerbow/static/PDB/dimers_sim/sim_3/"
+      var orientation_sim = [78.87, 5.19, 87.8, 0, 87.94, -2.61, -78.84, 0, -1.52, 117.99, -5.61, 0, -75.01, -75.46, -54.69, 1]
+    }
+    if (sim == 4) {
+      var path_dimer_sim = "http://alf06.uab.es/dimerbow/static/PDB/dimers_sim/sim_4/"
+      var orientation_sim = [32.9, 0.65, 127.87, 0, 127.87, -0.86, -32.89, 0, 0.67, 132.03, -0.85, 0, -75.04, -74.99, -54.84, 1]
+    }
+    if (sim == 5) {
+      var path_dimer_sim = "http://alf06.uab.es/dimerbow/static/PDB/dimers_sim/sim_5/"
+      var orientation_sim = [61.11, 31.51, 108.65, 0, 113.05, -12.7, -59.91, 0, -3.95, 124.01, -33.74, 0, -73.53, -74.98, -57.25, 1]
+    }
+    var dimer = sessionStorage.getItem("dimer");
+    var coords = sessionStorage.getItem("coords");
+    var coords = coords.split(" ");
+
+    var positive = 'ARG or HIS or LYS'
+    var negative = 'ASP or  GLU'
+    var hidrofobic = 'GLY or  PRO or ALA or  MET or  VAL or  LEU or  ILE'
+    var arom = 'PHE or TYR or TRP'
+    var polar = 'CYS or GLN or ASN or THR or SER'
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // var stage_0 = new NGL.Stage("viewport_1");
+      var stage = new NGL.Stage("viewport_1");
+      var schemeId = NGL.ColormakerRegistry.addSelectionScheme([
+        ["paleturquoise", coords[1]],
+        ["palegoldenrod", coords[2]],
+        ["indianred", coords[3]],
+        ["lightgrey", coords[4]],
+        ["lightgreen", coords[5]],
+        ["lightblue", coords[6]],
+        ["peachpuff", coords[7]],
+        ["lightgrey", "*"]
+      ], "Transmembrane");
+
+      var schemeId_crystal = NGL.ColormakerRegistry.addSelectionScheme([
+        ["cyan", coords[1]],
+        ["gold", coords[2]],
+        ["darkred", coords[3]],
+        ["grey", coords[4]],
+        ["green", coords[5]],
+        ["cornflowerblue", coords[6]],
+        ["salmon", coords[7]],
+        ["lightgrey", "*"]
+      ], "Transmembrane_crystal");
+
+      var scheme_restype = NGL.ColormakerRegistry.addSelectionScheme([
+        ["blue", positive],
+        ["red", negative],
+        ["green", polar],
+        ["lightgrey", "*"]
+      ], "Restype");
+
+      stage.loadFile(path_cry + dimer + ".pdb", { backgroundColor: 'white' }).then(function (o) {
+        o.addRepresentation("cartoon", {
+          color: schemeId,
+          sele: "protein",
+          name: "dimer",
+          visible: crystalCheckbox.checked,
+        })
+        o.autoView()
+        o.addRepresentation("ball+stick", {
+          name: "sidechain",
+          visible: sidechainCheckbox.checked,
+          sele: "protein",
+        })
+        o.addRepresentation("surface", {
+          name: "surface",
+          visible: surfaceCheckbox.checked,
+          sele: "protein",
+          colorScheme: schemeId,
+        })
+        o.addRepresentation("surface", {
+          name: "restype",
+          visible: restypeCheckbox.checked,
+          sele: "protein",
+          colorScheme: scheme_restype,
+        })
+      });
+      // stage_0.setParameters({
+      //   backgroundColor: "white"
+      // })
+      stage.viewerControls.orient(orientation_cry)
+
+      stage.loadFile(path_dimer_sim + dimer + "_" + sim + ".pdb", { backgroundColor: 'white' }).then(function (o) {
+        o.addRepresentation("cartoon", {
+          color: schemeId_crystal,
+          sele: "protein",
+          name: "dimer_sim"
+        })
+        o.autoView()
+        o.addRepresentation("ball+stick", {
+          name: "sidechain_sim",
+          visible: sidechainCheckbox.checked,
+          sele: "protein",
+        })
+        o.addRepresentation("surface", {
+          name: "surface_sim",
+          visible: surfaceCheckbox.checked,
+          sele: "protein",
+          colorScheme: schemeId_crystal,
+        })
+        o.addRepresentation("surface", {
+          name: "restype_sim",
+          visible: restypeCheckbox.checked,
+          sele: "protein",
+          colorScheme: scheme_restype,
+        })
+      });
+      stage.setParameters({
+        backgroundColor: "white"
+      })
+      stage.viewerControls.orient(orientation_cry)
+
+      function addElement(el) {
+        Object.assign(el.style, {
+          position: "absolute",
+          zIndex: 10
+        })
+        stage.viewer.container.appendChild(el)
+      }
+      function createElement(name, properties, style) {
+        var el = document.createElement(name)
+        Object.assign(el, properties)
+        Object.assign(el.style, style)
+        return el
+      }
+      var centerButton = createElement("input", {
+        type: "button",
+        value: "Center",
+        onclick: function () {
+          stage.autoView(1000)
+          stage.autoView(1000)
+        }
+      }, { top: "60px", left: "12px" });
+      addElement(centerButton);
+
+      var crystalCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: true,
+        onchange: function (e) {
+          stage.getRepresentationsByName("dimer").setVisibility(e.target.checked)
+        }
+      }, { top: "100px", left: "12px" });
+      addElement(crystalCheckbox);
+      addElement(createElement("span", {
+        innerText: "Crystal structure"
+      }, { top: "100px", left: "32px", color: "black" }));
+
+      var sidechainCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: false,
+        onchange: function (e) {
+          stage.getRepresentationsByName("sidechain_sim").setVisibility(e.target.checked)
+          stage.getRepresentationsByName("sidechain").setVisibility(e.target.checked)
+        }
+      }, { top: "120px", left: "12px" });
+      addElement(sidechainCheckbox);
+      addElement(createElement("span", {
+        innerText: "Sidechain"
+      }, { top: "120px", left: "32px", color: "black" }));
+
+      var surfaceCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: false,
+        onchange: function (e) {
+          stage.getRepresentationsByName("surface_sim").setVisibility(e.target.checked)
+          stage.getRepresentationsByName("surface").setVisibility(e.target.checked)
+        }
+      }, { top: "140px", left: "12px" });
+      addElement(surfaceCheckbox);
+      addElement(createElement("span", {
+        innerText: "Surface"
+      }, { top: "140px", left: "32px", color: "black" }));
+
+      var restypeCheckbox = createElement("input", {
+        type: "checkbox",
+        checked: false,
+        onchange: function (e) {
+          stage.getRepresentationsByName("restype_sim").setVisibility(e.target.checked)
+          stage.getRepresentationsByName("restype").setVisibility(e.target.checked)
+        }
+      }, { top: "160px", left: "12px" });
+      addElement(restypeCheckbox);
+      addElement(createElement("span", {
+        innerText: "Residue type"
+      }, { top: "160px", left: "32px", color: "black" }))
+
+    });
+    //Function Download
+    function download() {
+      window.location = path_dimer_sim + dimer + "_" + sim + ".pdb"
+    }
+
+  </script>
+  <!-- <p style="color: white; padding-left: 10px;">
+    Crystallographic structure <span class="dot" style="background-color:green; display: inline-block; height: 15px; width: 15px; border-radius: 50%"></span>
+  </p>
+  <div name="viewport_1" id="viewport_1" style="background:white; width:100%; height:325px; position: relative"></div> -->
+  <button class="btn" style="margin-top:0" onclick=download()><i class="fa fa-download"></i>Download</button>
+  <p style="color: white; padding-left: 10px;">
+    Crystallographic structure <span class="dot" style="background-color:green; display: inline-block; height: 15px; width: 15px; border-radius: 50%; margin-right: 20px"></span>
+    Simulation structure <span class="dot" style="background-color:grey; display: inline-block; height: 15px; width: 15px; border-radius: 50%"></span>
+  </p>
+  <div name="viewport_1" id="viewport_1" style="background:white; width:100%; height:670px"></div>
+
+</body>
+
+</html>
